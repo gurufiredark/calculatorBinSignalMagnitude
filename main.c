@@ -21,9 +21,7 @@ int main(){
     converteParaBinario(numDecimal1, binario1);
     converteParaBinario(numDecimal2, binario2);
 
-    for (i = 0; i < BITS; i++){            // para iniciar o vetor do resultado com todos valor 0 de inicio
-        binresult[i] = 0;          
-    }
+    inicializaVetorZerado(binresult);
 
     switch(op)
     {
@@ -51,20 +49,26 @@ int main(){
             printf("SAINDO DO PROGRAMA...");
             break;
         default:
-            printf("Selecione uma operacao ou saia do programa");
+            printf("RESPOSTA INVALIDA");
             break;
     }
 
 }
 
+void inicializaVetorZerado(int vetor[BITS]){ //zerando o vetor
+    for (int i = 0; i < BITS; i++){            
+        vetor[i] = 0;          
+    }
+}
+
 void menuOpSub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
     int maior = maiorBinario(bin1, bin2);
-    if(bin1[0] == 0 && bin2[0] == 0){ //x - y realiza uma subtracao normal                 
+    if(bin1[0] == 0 && bin2[0] == 0){ //x - y realiza uma subtracao normal               
         if(maior == 0){            // caso for igual (0) faz uma sub normal e coloca o sinal como 0
             sub(bin1,bin2,binresult);
             binresult[0] = 0;    
         }
-        else if(maior == 2){      //caso bin2>bin1 trocamos os valores e fazemos uma sub normal e colocando o sinal como 1
+        else if(maior == 2){      //caso bin2>bin1 trocamos os valores e fazemos uma sub normal, resultado fica negativo, sinal igual a 1
             binresult[0] = 1;
             sub(bin2,bin1,binresult);
         }
@@ -72,7 +76,7 @@ void menuOpSub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
             sub(bin1,bin2,binresult); //bin1>bin2 só faz a sub normal
         }
     }
-    else if(bin1[0] == 0 && bin2[0] == 1){ // x - (-y) tem q realizar uma soma, se o bin2 for maior tem que vir primeiro e manter o sinal negativo
+    else if(bin1[0] == 0 && bin2[0] == 1){ // x - (-y) tem q realizar uma soma  
         if(maior == 0){            
             soma(bin1,bin2,binresult);
             binresult[0] = 0;    
@@ -84,43 +88,41 @@ void menuOpSub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
         else{
             soma(bin1,bin2,binresult); 
         }
-        
     }
     else if(bin1[0] == 1 && bin2[0] == 0){ // (-x) - y tem q realizar uma soma, mas o sinal é negativo = 1   
         binresult[0] = 1;
         soma(bin1,bin2,binresult);
-        
     }
-    else if(bin1[0] == 1 && bin2[0] == 1){ // (-x) - (-y) tem q realizar uma subtracao      
+    else if(bin1[0] == 1 && bin2[0] == 1){ // (-x) - (-y) tem q realizar uma subtracao       
         if(maior == 0){             //sao iguais
             binresult[0] = 0;
             sub(bin1,bin2,binresult);
         }
         else if(maior == 2){    //bin2>bin1
-            binresult[0] = 1;
             sub(bin2,bin1,binresult);
         }
         else{                  //bin1>bin2
             binresult[0] = 1;
             sub(bin1,bin2,binresult);
-            
         }
     }
 }
 
 void menuOpSoma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
-    if(bin1[0] == 0 && bin2[0] == 0){ //x + y realiza uma soma normal                
+    if(bin1[0] == 0 && bin2[0] == 0){ //x + y realiza uma soma normal              
         soma(bin1,bin2,binresult);
     }
-    else if(bin1[0] == 0 && bin2[0] == 1){ // x + (-y) tem q realizar uma subtração
+    else if(bin1[0] == 0 && bin2[0] == 1){ // x + (-y) tem q realizar uma subtração , cai no primeiro caso do menuOpSub x - y
+        bin2[0] = 0;
         menuOpSub(bin1,bin2,binresult);
     }
-    else if(bin1[0] == 1 && bin2[0] == 0){ // (-x) + y tem q realizar uma subtração
+    else if(bin1[0] == 1 && bin2[0] == 0){ // (-x) + y tem q realizar uma subtração , cai no ultimo caso do menuOpSub (-x) + y
+        bin2[0] = 1;
         menuOpSub(bin1,bin2,binresult);
     }
-    else if(bin1[0] == 1 && bin2[0] == 1){ // (-x) + (-y) tem q realizar uma soma       
-        soma(bin1,bin2,binresult);
-        binresult[0] = 1;                   
+    else if(bin1[0] == 1 && bin2[0] == 1){ // (-x) + (-y) tem q realizar uma soma, com sinal negativo = 1 
+        binresult[0] = 1;
+        soma(bin1,bin2,binresult);      
     }
 }
 
@@ -169,7 +171,7 @@ void sub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
     
 }
 
-void multiplicacao(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
+void multiplicacao(int bin1[BITS], int bin2[BITS], int binresult[BITS]){ // É FEITA SEM REPRESENTAR O SINAL, ADICIONA NO FINAL SÓ
     
 
     
