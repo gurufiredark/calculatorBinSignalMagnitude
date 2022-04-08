@@ -369,6 +369,7 @@ void multiplicacao(int binQ[BITS], int binM[BITS], int binresult[BITS]){ // É F
             imprimeBin(binM);
         }
     }
+    A[0] = sinalmult;
 }
 
 void transfereBin(int bin1[BITS], int bin2[BITS]){
