@@ -82,7 +82,12 @@ void converteParaBinario(int numdec, int vet_binario[BITS]){
 
 void imprimeBin(int bin[BITS]){
     for (int i = 0; i < BITS; i++){
-        printf(" %d", bin[i]);
+        if(i==0){
+            printf("(%d)", bin[i]);
+        }
+        else{
+            printf(" %d", bin[i]);
+        }
     }
     printf("\n");
 }
@@ -123,7 +128,8 @@ void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], in
         }
     }
     else if(op == '/'){
-        int restodiv;
+        int restodiv, sinaldiv;
+
         if(num2 == 0){
             printf("Nao eh possivel dividir por 0");
         }
@@ -132,8 +138,8 @@ void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], in
             restodiv = num1 % num2;
             printf("%d / %d = %d \n",num1,num2, numresult);
             printf("Resto da divisao: %d\n",restodiv);
-            //divisao(bin1,bin2,binresult);
-        }
+            divisao(num1,num2,numresult,restodiv,bin1,bin2,binresult);
+        }  
     }
 }
 
@@ -158,7 +164,7 @@ void menuOpSub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
             binresult[0] = 0;    
         }
         else if(maior == 2){      
-            binresult[0] = 1;
+            binresult[0] = 0;
             soma(bin2,bin1,binresult);
         }
         else{
@@ -219,24 +225,10 @@ void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
             carry = 0;
         } 
     }
-    printf("--------------------------------\n");
+    printf("----------------------------------\n");
     imprimeBin(binresult);
     
 }
-
-/*int somaMult(int bin1[BITS], int bin2[BITS], int Carry){ // VER SE PRECISA
-    for(int i = BITS-1; i > 0; i--){             //operador XOR / 0 ^ 0 da 0 / 0 ^ 1 da 1 / 1 ^ 0 da 1 / 1 ^ 1 da 0 / Faz com os numeros dos binarios e dps com Carry
-            Carry = bin1[i]^bin2[i]^Carry;
-            Carry = Carry + bin1[i] + bin2[i];     //carry recebendo a soma , se for > 1 é pq teve q passar 1 
-            if(Carry > 1){
-                Carry = 1;
-            }
-            else{ 
-            Carry = 0;
-            } 
-        }
-        return Carry;
-}*/
 
 void sub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
 
@@ -256,7 +248,7 @@ void sub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
             carry = 0;
         }
     }
-    printf("--------------------------------\n");
+    printf("----------------------------------\n");
     imprimeBin(binresult);
     
 }
@@ -272,7 +264,7 @@ void multiplicacao(int binQ[BITS], int binM[BITS], int binresult[BITS]){ // É F
     imprimeBin(binQ);
     printf("*\n");
     imprimeBin(binM);
-    printf("\n--------------------------------\n");
+    printf("\n-----------------------------------\n");
     printf("\nPasso a passo:\n");
 
     if(binQ[0] == 1 || binM[0] == 1){ //se algum dos dois sinais for 1, guardar o sinal para colocar no final
@@ -284,21 +276,21 @@ void multiplicacao(int binQ[BITS], int binM[BITS], int binresult[BITS]){ // É F
 
     for(int i = BITS-1; i > 0; i--){ // começando do 15 e indo até o 1, o 0 é o bit de sinal
         if(binQ[BITS-1] == 1){      // o bit mais a direita de Q é 1, então A = A + M
-            printf("C = %d\n", C);  // imprime os vetores iniciais
-            printf("A = \n");
+            printf("C : %d\n", C);  // imprime os vetores iniciais
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
             
             printf("\n");
 
             printf("Bit mais a direita de Q: %d\n", binQ[BITS-1]); // Somando A + M
             printf("Entao, A = A + M\n");
-            printf("A = \n");
+            printf("A : \n");
             imprimeBin(A);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
             printf("\n");
 
@@ -307,69 +299,141 @@ void multiplicacao(int binQ[BITS], int binM[BITS], int binresult[BITS]){ // É F
             
             printf("\nBinario A depois de somar com M : \n");
             imprimeBin(A);
+            printf("\n");
 
             printf("\nC, A e Q serao deslocados um bit para a direita \n"); // Antes de todos deslocar para direita
-            printf("C = %d\n", C);
-            printf("A = \n");
+            printf("C : %d\n", C);
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
 
             printf("\nDeslocando C, A e Q um bit para a direita\n");   // Apos o deslocamento para a direita
             C = DeslocaParaDireita(A,C);
             C = DeslocaParaDireita(binQ,C);
-            printf("C = %d\n", C);
-            printf("A = \n");
+            printf("\nC : %d\n", C);
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);      
         }
         else{
-            printf("C = %d\n", C);               // imprime os vetores iniciais
-            printf("A = \n");
+            printf("C : %d\n", C);               // imprime os vetores iniciais
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
 
             printf("\n");
 
             printf("Bit mais a direita de Q: %d\n", binQ[BITS-1]);    
             printf("Entao, A = A, ou seja, nao eh alterado\n");
-            printf("A = \n");
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
 
             printf("\nC, A e Q serao deslocados um bit para a direita \n"); // Apos o deslocamento para a direita
-            printf("C = %d\n", C);
-            printf("A = \n");
+            printf("C : %d\n", C);
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
 
             printf("\nDeslocando C, A e Q um bit para a direita\n"); // Apos o deslocamento para a direita
-            C = DeslocaParaDireita(A,C);
-            C = DeslocaParaDireita(binQ,C);
-            printf("C = %d\n", C);
-            printf("A = \n");
+            DeslocaParaDireita(A,C);
+            DeslocaParaDireita(binQ,C);
+            printf("C : %d\n", C);
+            printf("A : \n");
             imprimeBin(A);
-            printf("Q = \n");
+            printf("Q : \n");
             imprimeBin(binQ);
-            printf("M = \n");
+            printf("M : \n");
             imprimeBin(binM);
+            printf("\n");
         }
     }
     A[0] = sinalmult;
+}
+
+void divisao(int num1, int num2,int numresult,int restodiv, int bin1[BITS], int bin2[BITS], int binresult[BITS]){
+    int binresto[BITS], binresultsub[BITS];
+    int resultsub, contadorsub=1, aux1, aux2;
+    aux1 = num1;
+    aux2 = num2;
+
+    if(aux1 < 0) {
+        num1 = num1 * -1;
+    }
+    if(aux2 < 0){
+        num2 = num2 * -1;
+    }
+    
+    resultsub = num1 - num2;
+    printf("\n%d - %d = %d \n", num1, num2, resultsub);
+    converteParaBinario(num1,bin1);
+    imprimeBin(bin1);
+    printf("-\n");
+    converteParaBinario(num2,bin2);
+    imprimeBin(bin2);
+    printf("--------------------------------\n");
+    converteParaBinario(resultsub,binresultsub);
+    imprimeBin(binresultsub);
+
+    while(resultsub>=num2){
+        num1 = resultsub;
+        resultsub = num1 - num2;
+        printf("\n%d - %d = %d \n", num1, num2, resultsub);
+        printf("\nEm binario:");
+        converteParaBinario(num1,bin1);
+        converteParaBinario(num2,bin2);
+        converteParaBinario(resultsub,binresultsub);
+        sub(bin1,bin2,binresultsub);
+        contadorsub++;
+    }
+
+    converteParaBinario(contadorsub,binresult);
+    converteParaBinario(restodiv,binresto);
+
+    if(aux1 < 0 && aux2 < 0){ //binresult positivo e resto negativo
+        binresult[0] = 0;    
+        binresto[0] = 1;
+    }
+    else if(aux1 < 0 && aux2 > 0){   //binresult negativo e resto negativo
+        binresult[0] = 1;  
+        binresto[0] = 1;
+        
+    }
+    else if(aux1 > 0 && aux2 < 0){ //binresult negativo e resto positivo
+        binresult[0] = 1;
+        binresto[0] = 0;
+    }
+    else{                      //binresult positivo e resto positivo
+        binresult[0] = 0;
+        binresto[0] = 0;
+    }
+
+    if(binresult[0] == 1){
+        contadorsub = contadorsub * -1;
+    }
+
+    printf("\nResultado da divisao: %d\n", contadorsub);
+    printf("Em binario: \n");
+    imprimeBin(binresult);
+    printf("\nResto da divisao: %d\n", restodiv);
+    printf("Em binario: \n");
+    imprimeBin(binresto);
+
 }
 
 void transfereBin(int bin1[BITS], int bin2[BITS]){
@@ -380,16 +444,26 @@ void transfereBin(int bin1[BITS], int bin2[BITS]){
 
 int DeslocaParaDireita(int bin[BITS], int C){
     int aux, i;
+    
     if(bin[BITS - 1] == 1){
         aux = 1;
     }
     else{
         aux = 0;
     }
+
     for (i = BITS - 1; i > 0; i--){
     bin[i] = bin[i - 1];
     }
     bin[i] = C;
+
+    if(C == 1){
+        bin[i] = 1;
+    }
+    else{
+        bin[i] = 0;
+    }
     
-    return aux;
+
+    return C;
 }
