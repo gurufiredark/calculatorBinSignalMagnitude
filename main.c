@@ -134,11 +134,20 @@ void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], in
             printf("Nao eh possivel dividir por 0");
         }
         else{
-            numresult = num1 / num2;
+                if(num1< 0)
+                num1 = num1 * (-1);
+                if(num2< 0)
+                num2 = num2 * (-1);
+                if(num2>num1){
+                    printf("Nao eh possivel fazer a divisao, pois o segundo numero eh maior que o primeiro");
+                } 
+            else{
+                numresult = num1 / num2;
             restodiv = num1 % num2;
             printf("%d / %d = %d \n",num1,num2, numresult);
             printf("Resto da divisao: %d\n",restodiv);
             divisao(num1,num2,numresult,restodiv,bin1,bin2,binresult);
+            }
         }  
     }
 }
