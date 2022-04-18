@@ -272,7 +272,7 @@ int overflow(int bin1[BITS], int bin2[BITS],int binresult[BITS]){
         imprimeBin(bin2);
         printf("----------------------------------\n");
         imprimeBin(binresult);
-        return 1;
+        return 1;                                             //se deu overflow retorna 1 para atualizar o carry
     }
     return 0;
 }
