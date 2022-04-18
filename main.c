@@ -1,3 +1,4 @@
+//Author : Gabriel Rodrigues de Souza - RA : 118038
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -184,20 +185,20 @@ void menuOpSub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
     }
     else if(bin1[0] == 0 && bin2[0] == 1){ // x - (-y) tem q realizar uma soma  
         if(maior == 0){            
-            soma(bin1,bin2,binresult, 0);
+            soma(bin1,bin2,binresult);
             binresult[0] = 0;    
         }
         else if(maior == 2){      
             binresult[0] = 0;
-            soma(bin2,bin1,binresult, 0);
+            soma(bin2,bin1,binresult);
         }
         else{
-            soma(bin1,bin2,binresult, 0); 
+            soma(bin1,bin2,binresult); 
         }
     }
     else if(bin1[0] == 1 && bin2[0] == 0){ // (-x) - y tem q realizar uma soma, mas o sinal é negativo = 1   
         binresult[0] = 1;
-        soma(bin1,bin2,binresult, 0);
+        soma(bin1,bin2,binresult);
     }
     else if(bin1[0] == 1 && bin2[0] == 1){ // (-x) - (-y) tem q realizar uma subtracao       
         if(maior == 0){             //sao iguais
@@ -216,7 +217,7 @@ void menuOpSub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
 
 void menuOpSoma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
     if(bin1[0] == 0 && bin2[0] == 0){ //x + y realiza uma soma normal              
-        soma(bin1,bin2,binresult, 0);
+        soma(bin1,bin2,binresult);
     }
     else if(bin1[0] == 0 && bin2[0] == 1){ // x + (-y) tem q realizar uma subtração , cai no primeiro caso do menuOpSub x - y
         bin2[0] = 0;
@@ -228,17 +229,17 @@ void menuOpSoma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
     }
     else if(bin1[0] == 1 && bin2[0] == 1){ // (-x) + (-y) tem q realizar uma soma, com sinal negativo = 1 
         binresult[0] = 1;
-        soma(bin1,bin2,binresult, 0);      
+        soma(bin1,bin2,binresult);      
     }
 }
 
-void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS], int Cmult){
-    int carry=0;
+void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
+    int carry=0, of;
         printf("Carry:");  
         bin1[0] = 0;
         bin2[0] = 0;                                           //for até >= 0 para tratar overflow caso tenha
     for(int i = BITS-1; i >= 0; i--){             //operador XOR / 0 ^ 0 da 0 / 0 ^ 1 da 1 / 1 ^ 0 da 1 / 1 ^ 1 da 0 / Faz com os numeros dos binarios e dps com Carry
-        printf("%d",carry);
+        printf(" %d",carry);        
         binresult[i] = bin1[i]^bin2[i]^carry;
         carry = carry + bin1[i] + bin2[i];     //carry recebendo a soma , se for > 1 é pq teve q passar 1 
         if(carry > 1){
@@ -248,15 +249,10 @@ void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS], int Cmult){
             carry = 0;
         } 
     }
-    if(binresult[0] == 1){
-        Cmult = 1;
-        printf("\n");
-        imprimeBin(bin1);
-        printf("+\n");
-        imprimeBin(bin2);
-        printf("----------------------------------\n");
-        imprimeBin(binresult);
-        printf("\nHouve Overflow\n");
+
+    of = overflow(bin1,bin2,binresult);
+    if(of == 1){
+        printf("Overflow\n");
     }
     else{
         printf("\n");
@@ -266,6 +262,19 @@ void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS], int Cmult){
         printf("----------------------------------\n");
         imprimeBin(binresult);
     }
+}
+
+int overflow(int bin1[BITS], int bin2[BITS],int binresult[BITS]){
+    if(binresult[0] == 1){
+        printf("\n");
+        imprimeBin(bin1);
+        printf("+\n");
+        imprimeBin(bin2);
+        printf("----------------------------------\n");
+        imprimeBin(binresult);
+        return 1;
+    }
+    return 0;
 }
 
 void sub(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
@@ -298,7 +307,7 @@ void multiplicacao(int binQ[BITS], int binM[BITS]){
     inicializaVetorZerado(A);               //-2 POIS SÃO 15 DE A E 15 DE Q MAIS O DO SINAL
     inicializaVetorZerado(AUX);
 
-    for(int i = 0; i <=32; i++){
+    for(int i = 0; i <=(BITS*2)-2; i++){
         multresult[i] = 0;
     }
 
@@ -338,8 +347,9 @@ void multiplicacao(int binQ[BITS], int binM[BITS]){
             imprimeBin(binM);
             printf("\n");
 
-            soma(A,binM,AUX, C);
+            soma(A,binM,AUX);
             transfereBin(AUX,A);
+            C = overflow(A,binM,A);
     
             printf("\nBinario A depois de somar com M : \n");
             imprimeBin(A);
@@ -405,11 +415,11 @@ void multiplicacao(int binQ[BITS], int binM[BITS]){
             printf("\n");
         }
     }
-    for(int i = 0; i < BITS; i++){ //PARTE DO RESULTADO : A do 0 ao 15
+    for(int i = 1; i < BITS; i++){ //PARTE DO RESULTADO : A do 1 ao 15
         multresult[i] = A[i];
     }    
     for(int i = BITS; i <=(BITS*2)-2; i++){ //PARTE DO RESULTADO : Q do 16 ao 30
-        multresult[i] = binQ[i-BITS];
+        multresult[i] = binQ[(i+1)-BITS];  //pra nao pegar o bit de sinal de Q
     } 
     multresult[0] = sinalmult;
     printf("Binario Resultante -> A | Q :\n");
