@@ -265,7 +265,7 @@ void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
 }
 
 int overflow(int bin1[BITS], int bin2[BITS],int binresult[BITS]){
-    if(binresult[0] == 1){
+    if(binresult[0] == 1){                                        //verifica se deu overflow
         printf("\n");
         imprimeBin(bin1);
         printf("+\n");
