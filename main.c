@@ -6,7 +6,7 @@
 #define BITS 16
 
 int main(){
-    int numDecimal1, numDecimal2, resultadoDecimal = 0, binario1[BITS], binario2[BITS], binresult[BITS], maiorBin, i;
+    int numDecimal1, numDecimal2, resultadoDecimal = 0, binario1[BITS], binario2[BITS], binresult[BITS];
     char op;
 
     printf("Digite o primeiro numero: \n");
@@ -19,10 +19,10 @@ int main(){
     scanf("%d", &numDecimal2);
 
     if(numDecimal1 >= pow(2,BITS-1) || numDecimal2 >= pow(2,BITS-1)){
-        printf("Um dos numeros eh maior que o permitido para a representacao de BITS, com sinal magnitude\n");
+        printf("Um dos numeros eh maior que o permitido para a representacao de BITS permitido\n");
     }
     else if(numDecimal1 <= (pow(2,BITS-1) * -1) || numDecimal2 <= (pow(2,BITS-1))*-1){
-        printf("Um dos numeros eh maior que o permitido para a representacao de BITS, com sinal magnitude\n");
+        printf("Um dos numeros eh maior que o permitido para a representacao de BITS permitido\n");
     }
     else{
         inicializaVetorZerado(binario1);
@@ -253,6 +253,7 @@ void soma(int bin1[BITS], int bin2[BITS], int binresult[BITS]){
     of = overflow(bin1,bin2,binresult);
     if(of == 1){
         printf("Overflow\n");
+        printf("Carry recebe 1\n");
     }
     else{
         printf("\n");
