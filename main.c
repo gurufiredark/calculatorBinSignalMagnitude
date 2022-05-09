@@ -143,7 +143,7 @@ void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], in
     }
     }
     else if(op == '/'){
-            int restodiv, sinaldiv;
+            int restodiv;
             if(num2 == 0){
                 printf("Nao eh possivel dividir por 0");
             }
@@ -416,6 +416,7 @@ void multiplicacao(int binQ[BITS], int binM[BITS]){
             printf("\n");
         }
     }
+    
     for(int i = 1; i < BITS; i++){ //PARTE DO RESULTADO : A do 1 ao 15
         multresult[i] = A[i];
     }    
