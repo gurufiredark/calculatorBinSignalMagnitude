@@ -106,7 +106,7 @@ void inicializaVetorZerado(int vetor[BITS]){ //zerando o vetor
     }
 }
 
-int maiorBinario(int bin1[BITS], int bin2[BITS]){
+int maiorBinario(int bin1[BITS], int bin2[BITS]){ //descobre qual o maior binario para colocar primeiro
     for(int i = 1; i < BITS; i++){ // percorre da esq para dir pulando o bit de sinal e compara 1 e 0
         if(bin1[i] > bin2[i]){ 
             return 1; // o primeiro binario veio 1 primeiro entao é maior 
@@ -118,7 +118,7 @@ int maiorBinario(int bin1[BITS], int bin2[BITS]){
     return 0; //são iguais
 }
 
-void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], int bin2[BITS], int binresult[BITS]){
+void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], int bin2[BITS], int binresult[BITS]){ //função que verifica as possibilidades com 0 na multiplicação e divisão , ela que chama as funções de multi e div
     if(op == '*'){
         int multresult[BITS*2]; //resultado da multiplicação resulta em um vetor de 32 BITS
         for(int i = (BITS*2)-1; i >= 0; i--){
