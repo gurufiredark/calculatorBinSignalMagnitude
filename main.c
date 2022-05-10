@@ -167,7 +167,7 @@ void verificaZero(int num1, int num2, int numresult, char op, int bin1[BITS], in
                 printf("%d ", multresult[i]);
             }
         }
-        else if(num1 >= pow(2,(BITS*2)-2) || num2 >= pow(2,(BITS*2)-2)){                                        //seria o overflow, pois n seria possivel representar o resltado da multiplicação em (BITS*2) - 2
+        else if(num1 >= pow(2,(BITS*2)-2) || num2 >= pow(2,(BITS*2)-2)){                                        //verificação para ver se o resultado da multiplicação irá caber no tamanho do vetor resultante
         printf("O resultado da multiplicacao eh maior que o permitido para a representacao de BITS permitido ");
         }
         else if(num1 <= (pow(2,(BITS*2)-2) * -1) || num2 <= (pow(2,(BITS*2)-2)*-1)){
@@ -513,7 +513,7 @@ int main(){
     printf("Digite o segundo numero: \n");
     scanf("%d", &numDecimal2);
 
-    if(numDecimal1 >= pow(2,BITS-1) || numDecimal2 >= pow(2,BITS-1)){
+    if(numDecimal1 >= pow(2,BITS-1) || numDecimal2 >= pow(2,BITS-1)){         //verificação para ver se o numero irá caber no vetor de 15 bits
         printf("Um dos numeros eh maior que o permitido para a representacao de BITS permitido\n");
     }
     else if(numDecimal1 <= (pow(2,BITS-1) * -1) || numDecimal2 <= (pow(2,BITS-1))*-1){
