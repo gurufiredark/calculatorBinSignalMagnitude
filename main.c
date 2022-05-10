@@ -84,7 +84,6 @@ int overflow(int bin1[BITS], int bin2[BITS],int binresult[BITS]){//verifica se d
         printf("\n----------------------------------\n");
         imprimeBin(binresult);
         printf("\nOverflow\n");
-        printf("entrei aqui sem querer");
         return 1;        
     }                                     //se deu overflow retorna 1 para atualizar o carry
     else{
