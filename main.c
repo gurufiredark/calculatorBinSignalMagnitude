@@ -76,7 +76,7 @@ int maiorBinario(int bin1[BITS], int bin2[BITS]){ //descobre qual o maior binari
 }
 
 int overflow(int bin1[BITS], int bin2[BITS],int binresult[BITS]){//verifica se deu overflow
-    if(binresult[0] == 1 ){ //x + y realiza uma soma normal
+    if(binresult[0] == 1 ){
         printf("\n");
         imprimeBin(bin1);
         printf("\n+\n");
